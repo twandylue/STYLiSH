@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<head lang="en" dir="ltr">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>w0p3</title>
+    <link rel="stylesheet" href="/css/productUploadScript.css">
+</head>
+<body>
+    <main>
+        <div class="content" id="main__content" style="display: show;">
+            <form class="upload_cont" action="/admin/upload" method="post" enctype="multipart/form-data">
+                <div class="upload">
+                    <label>Please enter id(unique): 
+                        <input id="id" type="text" name="id">
+                    </label>
+                    <br>
+                    <label>Please select your catagory: 
+                        <select name="catagory">
+                            <option value="Choose">Choose</option>
+                            <option value="men">Men</option>
+                            <option value="women">Women</option>
+                            <option value="accessories">Accessories</option>
+                        </select>
+                    </label>
+                    <br>
+                    <label>Please enter your title: 
+                        <input id="title" type="text" name="title">
+                    </label>
+                    <br>
+                    <label>Please enter your description: 
+                        <input id="description" type="text" name="description">
+                    </label>
+                    <br>
+                    <label>Please enter your price: 
+                        <input id="price" type="text" name="price">
+                    </label>
+                    <br>
+                    <label>Please enter your texture: 
+                        <input id="texture" type="text" name="texture">
+                    </label>
+                    <br>
+                    <label>Please enter your wash: 
+                        <input id="wash" type="text" name="wash">
+                    </label>
+                    <br>
+                    <label>Please enter your place: 
+                        <input id="place" type="text" name="place">
+                    </label>
+                    <br>
+                    <label>Please enter your note: 
+                        <input id="note" type="text" name="note">
+                    </label>
+                    <br>
+                    <label>Please enter your story: 
+                        <input id="story" type="text" name="story">
+                    </label>
+                    <br>
+                    <label>Please enter your colors(unique):
+                        <!-- warning: Colors is object-->
+                        <input id="colors" type="text" name="name" placeholder="name">
+                        <input id="colors" type="text" name="code" placeholder="code">
+                    </label>
+                    <br>
+                    <label>Please enter your sizes:
+                        <!-- warning: size is array-->
+                        <input id="sizes" type="text" name="sizes">
+                    </label>
+                    <br>
+                    <label>Please enter your variants:
+                        <!-- warning: Variant is object-->
+                        <input id="variants" type="text" name="color_code_1" placeholder="color_code_1">
+                        <input id="variants" type="text" name="size_1" placeholder="size_1">
+                        <input id="variants" type="text" name="stock_1" placeholder="stock_1">
+                        <input id="variants" type="text" name="color_code_2" placeholder="color_code_2">
+                        <input id="variants" type="text" name="size_2" placeholder="size_2">
+                        <input id="variants" type="text" name="stock_2" placeholder="stock_2">
+                        <input id="variants" type="text" name="color_code_3" placeholder="color_code_3">
+                        <input id="variants" type="text" name="size_3" placeholder="size_3">
+                        <input id="variants" type="text" name="stock_3" placeholder="stock_3">
+                    </label>
+                    <br>
+                    <label>Please enter your main_image:
+                        <!-- warning: image file url-->
+                        <input id="main_image" name="main_image" type="file">
+                    </label>
+                    <br>
+                    <label>Please choose your images: 
+                        <input id="images" name="images" type="file">
+                        <input id="images" name="images" type="file">
+                        <input id="images" name="images" type="file">
+                        <!-- warning: images is array-->
+                    </label>
+                    <br>
+                    <input type="submit" value="UPDATE" id="UPDATE">
+                </div>
+            </form>
+        </div>
+    </main>
+    <!-- <script type="text/javascript" src="/script/productUploadScript.js"></script> -->
+</body>
+

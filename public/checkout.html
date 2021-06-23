@@ -1,0 +1,146 @@
+<!-- not used in project stylish -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>w2p1</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <script text="text/javascript" src="https://js.tappaysdk.com/tpdirect/v5.5.0"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <!-- 暫不需要css -->
+        <!-- <link rel='stylesheet' href="./css/style.css"> -->        
+    </head>
+    <body>
+        <header>   
+            <h1>w2p1</h1>
+        </header>
+        <section>
+            <!-- <h2>Shopping cart: </h2>
+            <label>Please enter product_id:
+                <input class="tpfield" type="text" name="product_id" id="product_id">
+            </label>
+            <br>
+            <label>Please enter total_cost:
+                <input class="tpfield" type="text" name="total_cost" id="total_cost">
+            </label>
+            <br> -->
+            <h2>TapPay: </h2>
+            <div id="cardview-container"></div>
+            <button type="submit" onclick="sendDATA()">PAY</button>
+            <!-- onclick = "function()" 點擊按鈕後執行function() -->
+
+            <!-- for test -->
+            <pre id="result1"></pre> 
+            <pre id="result2"></pre>
+            <!-- for test -->
+            <br>
+            <br>
+
+            <div class="to_show">
+                <div id="message"></div>
+            </div>
+        </section>
+    
+    <!-- js -->
+    <script>
+        TPDirect.setupSDK(12348, 'app_pa1pQcKoY22IlnSXq5m5WP5jFKzoRG58VEXpT7wU62ud7mMbDOGzCYIlzzLF', 'sandbox');
+        TPDirect.card.setup('#cardview-container');
+        function sendDATA() {
+            // const tappayStatus = TPDirect.card.getTappayFieldsStatus()
+            // console.log(tappayStatus)
+            // if (tappayStatus.canGetPrime === false) {
+            //     alert('can not get prime')
+            //     return
+            // } // has some problem.
+            TPDirect.card.getPrime(function (result) {
+                if (result.status !== 0) {
+                    alert('get prime error ' + result.msg);
+                    return
+                }
+                alert('get prime 成功，prime: ' + result.card.prime);
+                console.log(result.card.prime);
+
+                document.querySelector('#result1').innerHTML = JSON.stringify(result, null, 4) // for test
+
+                // let product_id = document.querySelector('#product_id').value;
+                // let total_cost = document.querySelector('#total_cost').value;
+                let tappay_prime = result.card.prime;
+                let data = {
+                    prime: tappay_prime,
+                    order: {
+                        shipping: 'delivery',
+                        payment: 'credit_card',
+                        subtotal: 1234,
+                        freight: 14,
+                        total: 1300,
+                        recipient: {
+                            name: 'Luke',
+                            phone: '0987654321',
+                            email: "luke@gmail.com",
+                            address: "市政府站",
+                            time: "morning"
+                        },
+                        list: [
+                            {
+                                id: "1",
+                                name: "牛仔褲",
+                                price: 1313,
+                                color: {
+                                    code: "DDF0FF",
+                                    name: "淺藍"
+                                },
+                                size: "M",
+                                qty: 1
+                            },
+                            {
+                                id: "2",
+                                name: "活力花紋長筒",
+                                price: 129999,
+                                color: {
+                                    code: "DDF0FF",
+                                    name: "淺藍"
+                                },
+                                size: "M",
+                                qty: 1
+                            },
+                            {
+                                id: "3",
+                                name: "活力花紋",
+                                price: 129,
+                                color: {
+                                    code: "DDF0FF",
+                                    name: "淺藍"
+                                },
+                                size: "M",
+                                qty: 1
+                            }
+                        ]
+                    }                    
+                }
+                console.log(data); // for test
+                let dataString = JSON.stringify(data);
+                let tappay = new XMLHttpRequest();
+                tappay.onreadystatechange = function () {
+                    if (tappay.readyState === 4) {
+                        if (tappay.status === 200) {
+                            // do something
+                        } else {
+                            alert(tappay.status);
+                        }
+                    }
+                }
+                tappay.open("POST", '/api/1.0/order/checkout'); // for local test and EC2
+                // tappay.open("POST", 'http://35.73.76.64/api/1.0/order/checkout'); // for EC2
+                tappay.setRequestHeader('Content-Type', "application/json");
+                let access_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoi6Zm45a6JIiwiZW1haWwiOiJwcm90b25sdWVAZ21haWwuY29tIiwicHJvdmlkZXIiOiJmYWNlYm9vayIsInBpY3R1cmUiOiJodHRwczovL3BsYXRmb3JtLWxvb2thc2lkZS5mYnNieC5jb20vcGxhdGZvcm0vcHJvZmlsZXBpYy8_YXNpZD0zODg1OTAyMzI0ODAxMDg1JmhlaWdodD01MCZ3aWR0aD01MCZleHQ9MTYyMDI4MzcxMCZoYXNoPUFlVDlhSndLcXMtMVpqSGV2ZkUiLCJpYXQiOjE2MTc2OTE3MTAsImV4cCI6MTYxNzc3ODExMH0.FosEfpbaRqSpHynRnygNuMFyEff1ZvNun-nlHzALcrI'; 
+                tappay.setRequestHeader('Authorization', 'bearer ' + access_token); // set up header
+                tappay.send(dataString);
+                
+                document.querySelector('#result2').innerHTML = JSON.stringify(dataString, null, 4) // for test
+
+            });
+        }
+    </script>
+    </body>
+</html>

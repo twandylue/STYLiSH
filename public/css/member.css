@@ -1,0 +1,39 @@
+.profile {
+  padding: 100px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  text-align: center;  
+}
+  
+  .profile > h2 {
+    padding-bottom: 16px;
+    border-bottom: 1px solid #979797;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .profile > #member {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  
+  .profile > #member > img {
+    width: 200px;
+    margin: 0 24px;
+  }
+  
+  .profile > #member > .member__detail > h3 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 24px 0;
+  }
+
+  .button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }

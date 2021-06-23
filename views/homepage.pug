@@ -1,0 +1,35 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  // title /名稱
+  title work-3
+  link(rel='stylesheet' href='css/base.css')
+body
+.content    
+  .sign_in
+    form.sign_in_cont(action='/sign_in' method='post')
+      label
+        | Please enter your email: 
+        input#email(type='text' name='email')
+      br
+      label
+        | Please enter your password: 
+        input#password(type='text' name='password')
+      br
+      button#sign_in_button(type='submit') SIGN IN!
+  .sign_up
+    form(action='/sign_up' method='post')
+
+      label
+        | Please enter your email: 
+        input#email(type='text' name='email')
+      br
+      label
+        | Please enter your password: 
+        input#password(type='text' name='password')
+      br
+      button#sign_up_button(type='submit') SIGN UP!
+if message
+    h2 #{message}!!
+// <script src="../app.js"></script>

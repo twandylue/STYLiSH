@@ -1,0 +1,6 @@
+h2 What's your name?
+form(action='/trackName', method='get')
+    label Please enter your name: 
+        //- 用get name='name'表示 URL中?name=name(req.query.name = name)
+        input(type='text', name='name') 
+    button(type='submit') Submit

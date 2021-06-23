@@ -1,0 +1,16 @@
+
+/DOTENV
+/public/upload_images
+/public/images
+
+# node modules
+/node_modules
+
+# eslint
+.eslintrc.json
+
+# vscode
+.vscode
+
+# Mac
+.DS_Store

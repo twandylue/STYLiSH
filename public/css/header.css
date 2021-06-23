@@ -1,0 +1,147 @@
+/* ================================= 
+  Base Element Styles
+==================================== */
+
+* {
+	box-sizing: border-box;
+}
+body {
+	font-family: 'Varela Round', sans-serif;
+	line-height: 1.6;
+	color: #3a3a3a;
+	margin: 0;
+}
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+p {
+	font-size: .95em;
+	margin-bottom: 1em;
+}
+h2,
+h3,
+a {
+	color: #093a58;
+}
+h2,
+h3 {
+	margin-top: 0;
+}
+a {
+	text-decoration: none;
+}
+img {
+	max-width: 100%;
+}
+
+/* ================================= 
+  Base Layout Styles
+==================================== */
+
+/* ---- Navigation ---- */
+
+.name {
+	font-size: 1.35em;
+	margin: 0;
+}
+.main-nav {
+	margin-top: 5px;
+}
+.name a,
+.main-nav a {
+	text-align: center;
+	display: block;
+	padding: 10px 15px;
+}
+.main-nav a {
+	font-size: .95em;
+	color: #3acec2;
+	text-transform: uppercase;
+}
+.main-nav a:hover {
+	color: #093a58;
+}
+
+/* ---- Layout Containers ---- */
+
+/* ===header=== */
+.main-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    margin: auto;
+	padding-top: .5em;
+	padding-bottom: .5em;
+    border-bottom: rgb(15, 15, 15) solid 20px;
+    background-color: white;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+#nav_logo {
+    display: block;
+    margin-top: auto;
+    height: 24px;
+    width: 129px;
+}
+
+.nav_bar_items {
+    text-decoration: none;
+    color: gray;
+    font-size: 16px;
+    flex-grow: 1;
+    border-left: gray solid 2px;
+    /* letter-spacing: 24px; */
+    letter-spacing: 18px;
+    text-align: center;
+    padding-top: auto;
+    /* background-color: red;  */
+}
+
+.nav_right {
+    display: flex;
+    flex-direction: row;
+     justify-content: right;
+    align-items: center;
+    /* background-color: orange; */
+}
+
+.nav_search {
+    display: flex;
+    flex-direction: row;
+    /* background-color: orchid; */
+}
+
+.nav_search input {
+    width: 214px;
+    height: 40px;
+    border-radius: 60px;
+    border-width: 1px;
+    font-size: 40px;
+}
+
+.nav_cart {
+    display: block;
+    margin-left: auto;
+    /* background-color: purple; */
+}
+
+#cart_number {
+    display: block;
+    text-align: center;
+    height: 24px;
+    width: 24px;
+    font-weight: bold;
+    padding-top: 3px;
+    opacity: 0.7;
+    background-color: #8b572a;
+    border-radius: 50%;
+    color: white;
+    margin-left: -20px;
+    margin-bottom: -10px;
+}

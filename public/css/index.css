@@ -1,0 +1,44 @@
+/* ===main content=== */
+.main-content {
+    display: flex;
+    justify-content:space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 90%;
+    margin: 15px auto;
+    /* background-color: tomato; */
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    /* background-color: teal; */
+    padding-right: 1em;
+	padding-left: 1em;
+}
+
+.product_colors {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    margin-top: 0.5em;
+}
+
+.product_color {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin: 4px 4px 4px 0;
+    border: 0.6px solid rgb(233, 231, 231);
+    text-align: left;
+}
+
+.product_title {
+    font-size: 18px;
+}
+
+.product_price {
+    font-size: 18px;
+}
+

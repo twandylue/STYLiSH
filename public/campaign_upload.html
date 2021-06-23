@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<head lang="en" dir="ltr">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>w1p5</title>
+    <!-- <link rel="stylesheet" href="/css/productUploadScript.css"> -->
+</head>
+<body>
+    <main>
+        <div class="content">
+            <div class="upload">
+                <form class="upload_cont" action="/api/1.0/admin/campaign_upload" method="post" enctype="multipart/form-data">
+                    <label>Please enter product_id(unique): 
+                        <input id="id" type="text" name="id">
+                    </label>
+                    <br>
+                    <label>Please enter your story: 
+                        <input id="story" type="text" name="story">
+                    </label>
+                    <br>
+                    <label>Please enter your campaign_image:
+                        <!-- warning: campaign_image file url-->
+                        <input id="campaign_image" name="campaign_image" type="file">
+                    </label>
+                    <br>
+                    <input type="submit" value="UPDATE">
+                </form>
+            </div>
+        </div>
+    </main>
+    <!-- <script type="text/javascript" src="/script/productUploadScript.js"></script> -->
+</body>

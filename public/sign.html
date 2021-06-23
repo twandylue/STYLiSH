@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>w1p3</title>
+        <!-- 暫不需要css -->
+        <!-- <link rel='stylesheet' href="./css/style.css"> -->
+    </head>
+    <body>
+        <header>   
+                <h1>w1p3</h1>
+        </header>
+      
+        <section>
+            <!-- <h1>w1p3</h1> -->
+            <h2>SING UP: </h2>
+            <label>Please enter your name:
+                <input type="text" name="name" id="name_signin">
+            </label>
+            <label>Please enter your email:
+                <input type="text" name="email" id="email_signin">
+            </label>
+            <label>Please enter your password:
+                <input type="text" name="password" id="password_signin">
+            </label>
+            
+            <br>
+            <button type="submit" onclick="sendDATA('signup')">Submit</button>
+            <!-- onclick = "function()" 點擊按鈕後執行function() -->
+
+            <br>
+
+            <h2>SING IN: </h2>
+            <label>Please enter your name:
+                <input type="text" name="name" id="name_signup">
+            </label>
+            <label>Please enter your email:
+                <input type="text" name="email" id="email_signup">
+            </label>
+            <label>Please enter your password:
+                <input type="text" name="password" id="password_signup">
+            </label>
+            <br>
+            <button type="submit" onclick="sendDATA('signin')">Submit</button>
+            <!-- onclick = "function()" 點擊按鈕後執行function() -->
+
+            <br>
+
+            <div class="to_show">
+                <div id="message"></div>
+            </div>
+        </section>
+
+    <!-- js -->
+    <script>
+        //function()在button中的寫法
+        function sendDATA(click) {
+            let username = '';
+            let email = '';
+            let password = ''
+            if (click === 'signup') {
+                username = document.querySelector('#name_signin').value;
+                email = document.querySelector('#email_signin').value;
+                password = document.querySelector('#password_signin').value;
+            } else {
+                username = document.querySelector('#name_signup').value;
+                email = document.querySelector('#email_signup').value;
+                password = document.querySelector('#password_signup').value;
+            }
+            
+            let data = {
+                name: username,
+                email: email,
+                password: password
+            }
+            // console.log('======')
+            let dataString = JSON.stringify(data);
+            let send_sql = new XMLHttpRequest();
+            send_sql.onreadystatechange = function () {
+                if (send_sql.readyState === 4) {
+                    if (send_sql.status === 200) {
+                        let res = JSON.parse(send_sql.response);
+                        console.log(res)
+                        if ("access_token" in res.data) {
+                            let toNewPage = new XMLHttpRequest();
+                            toNewPage.onreadystatechange = function () { // redirect to new page
+                                if (toNewPage.readyState === 4 && toNewPage.status === 200) {
+                                        const codition = JSON.parse(toNewPage.responseText);
+                                        if (codition.userPass === "pass") {
+                                            alert("登入/註冊成功! 轉跳至首頁");
+                                            window.location.href = "/";
+                                        }
+                                    }                      
+                                }
+                            window.localStorage.setItem('access_token', res.data.access_token);
+                            toNewPage.open("GET", `/api/1.0/user/profile`); // for local test and EC2
+                            // toNewPage.open("GET", `http://35.73.76.64/api/1.0/user/profile`); // for EC2
+                            toNewPage.setRequestHeader('Authorization', 'bearer ' + res.data.access_token); // set up header
+                            toNewPage.send(); 
+                        } else {
+                            document.querySelector('#message').innerHTML = res.data.message;
+                        }
+                    } else {
+                        alert(send_sql.statusText);
+                    };
+                };
+            }; 
+            if (click === 'signup') {
+                send_sql.open("POST", `/api/1.0/user/signup`); // for local test and EC2
+                // send_sql.open("POST", `http://35.73.76.64/api/1.0/user/signup`); // for EC2
+            } else {
+                send_sql.open("POST", `/api/1.0/user/signin`); // for local test and EC2
+                // send_sql.open("POST", `http://35.73.76.64/api/1.0/user/signin`); // for EC2
+            }
+            send_sql.setRequestHeader('Content-Type', "application/json");
+            send_sql.send(dataString);
+        };
+    </script>
+    
+    </body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>midterm Dashboard</title>
+        <link rel="stylesheet" type="text/css" href="../css/dashboard.css" media="all">
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    </head>
+    <body>
+        <div id="count" class="info_block">
+            <div id="number"></div>
+        </div>
+        <div id="pie" class="info_block"></div>
+        <div id="histogram" class="info_block"></div>
+        <div id="bar" class="info_block"></div>
+        <script>
+            function TotalRevenue() {
+                const xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            const ans = JSON.parse(xhr.responseText);
+                            // console.log(ans)
+                            const number = ans.data['Total Revenue']
+                            document.querySelector("#number").innerHTML = "Total Revenue: " + number
+                        }
+                    }
+                }; 
+                xhr.open("GET", '/api/1.0/TotalRevenue');
+                xhr.send();
+            };
+            TotalRevenue();
+
+            function PieChart () {
+                const xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            const ans = JSON.parse(xhr.responseText);
+                            // console.log(ans)
+                            const values = []
+                            const labels = []
+                            const colors = []
+                            for (const i in ans.data) {
+                                values.push(ans.data[i]['SUM(qty)'])
+                                labels.push(ans.data[i].color_name)
+                                colors.push(ans.data[i].color_code)
+                            }
+
+                            let colorData = [{
+                                values: values,
+                                labels: labels,
+                                marker: {
+                                    colors: colors
+                                },
+                                type: 'pie'
+                            }];
+
+                            let layout = {
+                                title: {
+                                    text:'Product sold percentage in different colors',
+                                },
+                                height: 350,
+                            };
+                            Plotly.newPlot('pie', colorData, layout);                            
+                        }
+                    }
+                }; 
+                xhr.open("GET", '/api/1.0/PieChart');
+                xhr.send();
+            }
+            PieChart();
+
+            function Histograms () {
+                const xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            const ans = JSON.parse(xhr.responseText);
+
+                            let trace = {
+                                x: ans.data, 
+                                type: 'histogram',
+                            };
+                            let layout = {
+                                title: {
+                                    text:'Product sold quantity in different price range',
+                                },
+                                xaxis: {
+                                    title: {
+                                        text: 'Price Range',
+                                    },
+                                },
+                                yaxis: {
+                                    title: {
+                                        text: 'Quantity',
+                                    }
+                                }
+                            };
+                            let data = [trace];
+                            Plotly.newPlot('histogram', data, layout);            
+                        }
+                    }
+                }; 
+                xhr.open("GET", '/api/1.0/Histograms');
+                xhr.send();
+            }
+            Histograms();
+
+            function BarChart () {
+                const xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            const ans = JSON.parse(xhr.responseText);
+                            let sizeData = ans.data.map(d => ({
+                                x: d.idList.map(id => 'product ' + id),
+                                y: d.count,
+                                name: d.size,
+                                type: 'bar'
+                            }));
+
+                            let layout = {
+                                barmode: 'stack',
+                                title: {
+                                    text:'Quantity of top 5 sold products in different sizes',
+                                },
+                                yaxis: {
+                                    title: {
+                                        text: 'Quantity',
+                                    }
+                                }
+                            };
+                            Plotly.newPlot('bar', sizeData, layout);   
+                        }
+                    }
+                }; 
+                xhr.open("GET", '/api/1.0/BarChart');
+                xhr.send();
+            }
+            BarChart();
+        </script>
+    </body>
+</html>

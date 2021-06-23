@@ -1,0 +1,25 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  // title /名稱
+  title w1p5
+  link(rel='stylesheet' href='css/base.css')
+.content
+  .upload
+    form.upload_cont(action=`/api/${process.env['API_VERSION']}/admin/campaign_upload` method='post' enctype='multipart/form-data')
+      label
+        | Please enter product_id(unique): 
+        input#id(type='text' name='id')
+      br
+      label
+        | Please enter your story: 
+        input#story(type='text' name='story')
+      br
+      label
+        | Please enter your campaign_image:
+        // warning: campaign_image file url
+        input#campaign_image(name='campaign_image' type='file')
+      br
+      input(type='submit' value='UPDATE')
+// <script src="../app.js"></script>

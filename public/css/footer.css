@@ -1,0 +1,43 @@
+/* ===footer=== */
+.main-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content:space-around;
+	background: #282929;
+	padding: 2em 0;
+	margin-top: 30px;
+    align-items: center;
+}
+
+.footer-left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /* background-color: tomato; */
+}
+
+.footer_item {
+    color: blanchedalmond;
+    width: 130px;
+    height: 16px;
+    align-items: center;
+}
+
+.footer-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /* background-color: tomato; */
+}
+
+.social-media {
+    display: flex;
+    justify-content: space-around;
+    width: 210px;
+    margin-right: 40px;
+}
+
+#footermark {
+    font-size: 10px;
+    color: rgb(153, 150, 147);
+}

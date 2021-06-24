@@ -79,12 +79,9 @@ router.get("/marketing/campaigns", (req, res) => {
                 totalPages = sqlTotalcount / pagesGap;
                 const sqlDataStart = (queryPage) * pagesGap;
                 sqlSelect = sqlSelect + ` LIMIT ${sqlDataStart} , ${pagesGap};`;
-                // console.log(sqlSelect);
             }
             const campaignList = await dbsql(req, sqlSelect);
-            // console.log(JSON.stringify(campaignList));
 
-            // set data in cache
             client.set(keyData, JSON.stringify(campaignList));
             const campaignSqlInfo = { // save Info of mysql eg totalPages
                 totalPages: totalPages,
@@ -110,7 +107,6 @@ router.get("/marketing/campaigns", (req, res) => {
     }
 
     const queryPage = req.query.paging;
-    // console.log("query_page: " + queryPage); // check Arthur robot.
     const sqlSelect = "SELECT * FROM campaign_table";
     const sqlCount = "SELECT Count(*) FROM campaign_table;";
     qureyCampaign(sqlSelect, sqlCount, queryPage).then((result) => {
@@ -130,7 +126,6 @@ function getCache (key) { // used in async function
 async function checkVisit (ip, M) {
     const VisitTimes = await getCache(ip);
     await client.incr(ip); // add visit times
-    // console.log(VisitTimes);
     if (VisitTimes == null) {
         client.expire(ip, M);
     }

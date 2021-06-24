@@ -21,7 +21,6 @@
                     if (xhr.readyState === 4) {
                         if (xhr.status === 200) {
                             const ans = JSON.parse(xhr.responseText);
-                            // console.log(ans)
                             const number = ans.data['Total Revenue']
                             document.querySelector("#number").innerHTML = "Total Revenue: " + number
                         }
@@ -38,7 +37,6 @@
                     if (xhr.readyState === 4) {
                         if (xhr.status === 200) {
                             const ans = JSON.parse(xhr.responseText);
-                            // console.log(ans)
                             const values = []
                             const labels = []
                             const colors = []

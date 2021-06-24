@@ -122,8 +122,6 @@ xhr.onreadystatechange = function () {
                 }
             }
             detailUpload().then(() => {
-                // const response = JSON.parse(xhr.responseText);
-                // const { data } = response;
                 const colorSelect = document.querySelector("#colors");
                 colorSelect.addEventListener("click", (event) => {
                     const allColors = document.querySelectorAll(".product__color"); // reset color
@@ -267,19 +265,15 @@ xhr.onreadystatechange = function () {
     };
 };
 xhr.open("GET", `/api/1.0/products/details?id=${id}`); // for local test and EC2
-// xhr.open("GET", `http://35.73.76.64/api/1.0/products/details?id=${id}`); // for EC2
 xhr.send();
 
 function hexToRGB (h) {
     let r = 0; let g = 0; let b = 0;
 
-    // 3 digits
     if (h.length === 4) {
         r = "0x" + h[1] + h[1];
         g = "0x" + h[2] + h[2];
         b = "0x" + h[3] + h[3];
-
-    // 6 digits
     } else if (h.length === 7) {
         r = "0x" + h[1] + h[2];
         g = "0x" + h[3] + h[4];

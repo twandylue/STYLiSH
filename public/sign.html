@@ -73,7 +73,6 @@
                 email: email,
                 password: password
             }
-            // console.log('======')
             let dataString = JSON.stringify(data);
             let send_sql = new XMLHttpRequest();
             send_sql.onreadystatechange = function () {
@@ -94,7 +93,6 @@
                                 }
                             window.localStorage.setItem('access_token', res.data.access_token);
                             toNewPage.open("GET", `/api/1.0/user/profile`); // for local test and EC2
-                            // toNewPage.open("GET", `http://35.73.76.64/api/1.0/user/profile`); // for EC2
                             toNewPage.setRequestHeader('Authorization', 'bearer ' + res.data.access_token); // set up header
                             toNewPage.send(); 
                         } else {
@@ -107,10 +105,8 @@
             }; 
             if (click === 'signup') {
                 send_sql.open("POST", `/api/1.0/user/signup`); // for local test and EC2
-                // send_sql.open("POST", `http://35.73.76.64/api/1.0/user/signup`); // for EC2
             } else {
                 send_sql.open("POST", `/api/1.0/user/signin`); // for local test and EC2
-                // send_sql.open("POST", `http://35.73.76.64/api/1.0/user/signin`); // for EC2
             }
             send_sql.setRequestHeader('Content-Type', "application/json");
             send_sql.send(dataString);

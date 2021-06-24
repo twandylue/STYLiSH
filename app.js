@@ -14,26 +14,6 @@ app.use(cookieParser());
 app.use(express.static("public"));
 app.set("view engine", "pug");
 
-// set DB function (global function)
-// function DBConnection () {
-//     const db = mysql.createConnection({
-//         host: process.env.DB_HOST,
-//         user: process.env.DB_USER,
-//         password: process.env.DB_PASSWORD,
-//         database: process.env.DB_DATABASE
-//     });
-//     // MySQL Connect test
-//     db.connect((err) => {
-//         if (err) throw err;
-//         // eslint-disable-next-line no-console
-//         console.log("MySQL connected!");
-//     });
-//     return db;
-// }
-// app.set("db", new DBConnection());
-
-// set DB pool
-
 function DBConnection () {
     const pool = mysql.createPool({
         host: process.env.DB_HOST,
@@ -101,7 +81,6 @@ const midtermCalforDashboard = require("./router/midterm_CalforDashboard").route
 app.use(`/api/${process.env.API_VERSION}`, midtermCalforDashboard);
 
 // ===provide html or pug===
-//= ===================================看這邊
 // w0p3 products upload form
 app.get("/admin/product.html", (req, res) => {
     // res.render("product");
@@ -115,7 +94,6 @@ app.get("/admin/product.html", (req, res) => {
         res.sendFile(path.join(__dirname + "/public/checkUserTypeProduct.html"));
     }
 });
-//= ====================================看這邊
 
 // w1p4 signin and signup
 app.get("/admin/sign.html", (req, res) => {
@@ -123,7 +101,6 @@ app.get("/admin/sign.html", (req, res) => {
     res.sendFile(path.join(__dirname + "/public/sign.html"));
 });
 
-//= ===================================看這邊
 // w1p5 campaign upload form
 app.get("/admin/campaign.html", (req, res) => {
     // console.log('check campaign_upload_page'); // check Arthur robot.
@@ -138,7 +115,6 @@ app.get("/admin/campaign.html", (req, res) => {
         res.sendFile(path.join(__dirname + "/public/checkUserTypeCampaign.html"));
     }
 });
-//= ===================================看這邊
 
 // w2p1 checkout.html
 app.get("/admin/checkout.html", (req, res) => {
@@ -186,7 +162,6 @@ app.get("/profile.html", (req, res) => {
 // midterm dashboard
 app.get("/admin/dashboard.html", (req, res) => {
     console.log("MIDTERM!!!");
-    // eslint-disable-next-line node/no-path-concat
     res.sendFile(path.join(__dirname + "/public/dashboard.html"));
 });
 
@@ -199,13 +174,7 @@ app.get("/response-message/campaign-upload-success", (req, res) => {
     res.render("info_campaign");
 });
 
-// ===for test===
-// app.get("/", (req, res) => {
-//     res.send("<h1>Hello, My Server!</h1>");
-// });
-
 app.get("/insertDB", (req, res) => {
-    // insert data into database
     async function insertData () {
         const number = parseInt(req.query.number);
         const dataArr = [];
@@ -218,7 +187,6 @@ app.get("/insertDB", (req, res) => {
             data.push(paid, "delivery", "credit_card", subtotal, 60, totalPrice, "test", "0987654321", "test@gmail.com", "市政府站", "morning", userID);
             dataArr.push(data);
         }
-        // console.log(dataArr);
         const sqlTest = "INSERT INTO stylish.order_table (paid, shipping, payment, subtotal, freight, total, name, phone, email, address, time, user_id) VALUES ?";
         const resultdb = await dbSetInsert(sqlTest, [dataArr]);
         console.log(resultdb);
@@ -235,7 +203,6 @@ app.get("/deleteOrderTable", async (req, res) => {
 
 // 設置port:3000的server
 app.listen(3000, () => {
-    // eslint-disable-next-line no-console
     console.log("running...");
 });
 
@@ -262,7 +229,6 @@ function checkJWT (encryptedToken) {
 function dbsql (sql) {
     const dbReturn = new Promise((resolve, reject) => {
         app.get("db").query(sql, (err, result) => {
-            // if (err) throw err;
             if (err) reject(err);
             resolve(result);
         });

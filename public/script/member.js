@@ -62,7 +62,6 @@ function toProfile (message) {
         }
     };
     xhr.open("GET", "/api/1.0/user/profile"); // for local test and EC2
-    // xhr.open("GET", "http://35.73.76.64/api/1.0/user/profile"); // for EC2
     xhr.setRequestHeader("Content-Type", "application/json");
     const accessToken = localStorage.getItem("access_token");
     xhr.setRequestHeader("Authorization", "bearer " + accessToken);

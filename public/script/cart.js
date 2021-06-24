@@ -1,6 +1,5 @@
 updateCartNumber(); // update cart number
 const cart = JSON.parse(localStorage.getItem("cart"));
-// console.log(cart);
 const items = document.querySelector("#items");
 for (const i in cart) { // create element in main body
     const item = document.createElement("div");
@@ -54,14 +53,7 @@ for (const i in cart) { // create element in main body
 
     const itemSubtotal = document.createElement("div");
     itemSubtotal.className = "item__subtotal";
-    // const itemSubtotalMobileText = document.createElement("div");
-    // itemSubtotalMobileText.className = "mobile-text";
-    // itemSubtotalMobileText.innerHTML = "小計";
-    // const subtotal = document.createElement("div");
-    // subtotal.innerHTML = "NT." + (cart[i].qty * cart[i].price).toString(); // 需要用click更新
-    // itemSubtotal.append(itemSubtotalMobileText, subtotal);
     itemSubtotal.innerHTML = "NT." + (cart[i].qty * cart[i].price).toString();
-    // itemSubtotal.append(itemSubtotalMobileText);
 
     const itemRemove = document.createElement("div");
     itemRemove.className = "item__remove";
@@ -82,10 +74,7 @@ const selectChange = document.querySelector("#items");
 selectChange.addEventListener("change", (event) => { // uapdate item subtotal
     const newNumbers = document.querySelectorAll("#items option:checked");
     for (let i = 0; i < newNumbers.length; i++) { // i can be used cross different parent element
-        // console.log(newNumbers[i].value);
-        // console.log(cart[i].price);
         const newItemSubtotals = document.querySelectorAll("#items .item__subtotal");
-        // console.log(newSubtotals[i].innerHTML);
         newItemSubtotals[i].innerHTML = "NT." + (newNumbers[i].value * cart[i].price).toString(); // cart[i] 危險 待改 可改成item__price
         const newQty = JSON.parse(localStorage.getItem("cart"));
         newQty[i].qty = newNumbers[i].value;
@@ -141,7 +130,6 @@ checkout.addEventListener("click", (event) => {
                     alert("請註冊後再購買");
                     window.location.href = "/admin/sign.html";
                 } else {
-                    // do something
                     const data = {};
                     const shipping = "delivery";
                     const payment = "credit_card";
@@ -203,8 +191,6 @@ checkout.addEventListener("click", (event) => {
                                     alert("get prime error " + result.msg);
                                     return;
                                 }
-                                // alert("get prime 成功，prime: " + result.card.prime);
-                                // console.log(result.card.prime);
                                 const tappayPrime = result.card.prime;
                                 data = {
                                     prime: tappayPrime,
@@ -229,8 +215,6 @@ checkout.addEventListener("click", (event) => {
                             if (checkoutXhr.readyState === 4) {
                                 if (checkoutXhr.status === 200) {
                                     const response = JSON.parse(checkoutXhr.responseText);
-                                    // console.log("order ID: ");
-                                    // console.log(response.data.number); // orderID
 
                                     const thankyouXhr = new XMLHttpRequest();
                                     thankyouXhr.onreadystatechange = function () {
@@ -243,7 +227,6 @@ checkout.addEventListener("click", (event) => {
                                         }
                                     };
                                     thankyouXhr.open("GET", `/thankyou.html?number=${response.data.number}`); // for local test and EC2
-                                    // thankyouXhr.open("GET", `http://35.73.76.64/thankyou.html?number=${response.data.number}`); // for EC2
                                     thankyouXhr.send();
                                 } else {
                                     alert(checkoutXhr.status);
@@ -251,7 +234,6 @@ checkout.addEventListener("click", (event) => {
                             }
                         };
                         checkoutXhr.open("POST", "/api/1.0/order/checkout"); // // for local test and EC2
-                        // checkoutXhr.open("POST", "http://35.73.76.64/api/1.0/order/checkout"); // for EC2
                         checkoutXhr.send(dataString);
                     });
                 }
@@ -261,7 +243,6 @@ checkout.addEventListener("click", (event) => {
         }
     };
     signXhr.open("GET", "/api/1.0/user/profile"); // for // for local test and EC2
-    // signXhr.open("GET", "http://35.73.76.64/api/1.0/user/profile"); // for EC2
     signXhr.setRequestHeader("Content-Type", "application/json");
     const accessToken = localStorage.getItem("access_token");
     signXhr.setRequestHeader("Authorization", "bearer " + accessToken);

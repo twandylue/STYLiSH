@@ -34,7 +34,6 @@ router.get("/TotalRevenue", async (req, res) => {
 router.get("/PieChart", async (req, res) => {
     const sql = "SELECT color_name, color_code, SUM(qty) FROM midterm_order_list GROUP BY color_name;";
     const resultDB = await dbsql(req, sql);
-    // console.log(resultDB);
     const ans = {
         data: resultDB
     };
@@ -44,7 +43,6 @@ router.get("/PieChart", async (req, res) => {
 router.get("/Histograms", async (req, res) => {
     const sql = "SELECT price, qty FROM midterm_order_list";
     const resultDB = await dbsql(req, sql);
-    // console.log(resultDB);
     const arr = [];
     const arrTest = [];
     for (const i in resultDB) {
@@ -65,7 +63,6 @@ router.get("/BarChart", async (req, res) => {
     const max5Ids = max5.map(element => element.product_id);
 
     sql = "SELECT product_id, size, SUM(qty) FROM midterm_order_list WHERE product_id IN ? GROUP BY product_id, size ORDER BY product_id;";
-    // const resultDB = await dbsql(req, sql);
     const resultDB = await dbSetInsert(req, sql, [[max5Ids]]);
 
     const objSize = new Map();
@@ -78,11 +75,9 @@ router.get("/BarChart", async (req, res) => {
             objSize.set(resultDB[i].size, [resultDB[i]]);
         }
     }
-    // console.log(objSize);
-    // console.log(objSize.keys());
+
     const keys = objSize.keys();
     const response = [];
-    // console.log(max5Ids);
     for (const key of keys) {
         const count = [];
         for (const i in max5Ids) {
@@ -92,59 +87,19 @@ router.get("/BarChart", async (req, res) => {
                 }
             }
         }
-        // console.log(count);
         response.push({
             idList: max5Ids,
             count: count,
             size: key
         });
     }
-    // console.log(response);
     const arr = [];
     for (const i in response) {
-        // console.log(i);
         arr.push(response[response.length - 1 - i]);
     }
-    // ==================
-
-    // const objectS = {
-    //     idList: max5Ids,
-    //     count: [],
-    //     size: "S"
-    // };
-    // const objectM = {
-    //     idList: max5Ids,
-    //     count: [],
-    //     size: "M"
-    // };
-    // const objectL = {
-    //     idList: max5Ids,
-    //     count: [],
-    //     size: "L"
-    // };
-
-    // for (const i in max5Ids) {
-    //     for (const j in resultDB) {
-    //         if (max5Ids[i] === resultDB[j].product_id) {
-    //             if (resultDB[j].size === "S") {
-    //                 objectS.count.push(resultDB[j]["SUM(qty)"]);
-    //             } else if (resultDB[j].size === "M") {
-    //                 objectM.count.push(resultDB[j]["SUM(qty)"]);
-    //             } else if (resultDB[j].size === "L") {
-    //                 objectL.count.push(resultDB[j]["SUM(qty)"]);
-    //             }
-    //         }
-    //     }
-    // }
-    // // console.log(resultDB);
-
-    // const arr = [];
-    // arr.push(objectS, objectM, objectL);
     const ans = {
         data: arr
     };
-    // res.send(max5Ids);
-    // res.send(resultDB);
     res.send(ans);
 });
 

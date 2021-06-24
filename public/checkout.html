@@ -47,12 +47,6 @@
         TPDirect.setupSDK(12348, 'app_pa1pQcKoY22IlnSXq5m5WP5jFKzoRG58VEXpT7wU62ud7mMbDOGzCYIlzzLF', 'sandbox');
         TPDirect.card.setup('#cardview-container');
         function sendDATA() {
-            // const tappayStatus = TPDirect.card.getTappayFieldsStatus()
-            // console.log(tappayStatus)
-            // if (tappayStatus.canGetPrime === false) {
-            //     alert('can not get prime')
-            //     return
-            // } // has some problem.
             TPDirect.card.getPrime(function (result) {
                 if (result.status !== 0) {
                     alert('get prime error ' + result.msg);
@@ -61,10 +55,8 @@
                 alert('get prime 成功，prime: ' + result.card.prime);
                 console.log(result.card.prime);
 
-                document.querySelector('#result1').innerHTML = JSON.stringify(result, null, 4) // for test
-
-                // let product_id = document.querySelector('#product_id').value;
-                // let total_cost = document.querySelector('#total_cost').value;
+                document.querySelector('#result1').innerHTML = JSON.stringify(result, null, 4)
+      
                 let tappay_prime = result.card.prime;
                 let data = {
                     prime: tappay_prime,
@@ -118,26 +110,24 @@
                         ]
                     }                    
                 }
-                console.log(data); // for test
+                console.log(data); 
                 let dataString = JSON.stringify(data);
                 let tappay = new XMLHttpRequest();
                 tappay.onreadystatechange = function () {
                     if (tappay.readyState === 4) {
                         if (tappay.status === 200) {
-                            // do something
                         } else {
                             alert(tappay.status);
                         }
                     }
                 }
                 tappay.open("POST", '/api/1.0/order/checkout'); // for local test and EC2
-                // tappay.open("POST", 'http://35.73.76.64/api/1.0/order/checkout'); // for EC2
                 tappay.setRequestHeader('Content-Type', "application/json");
                 let access_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoi6Zm45a6JIiwiZW1haWwiOiJwcm90b25sdWVAZ21haWwuY29tIiwicHJvdmlkZXIiOiJmYWNlYm9vayIsInBpY3R1cmUiOiJodHRwczovL3BsYXRmb3JtLWxvb2thc2lkZS5mYnNieC5jb20vcGxhdGZvcm0vcHJvZmlsZXBpYy8_YXNpZD0zODg1OTAyMzI0ODAxMDg1JmhlaWdodD01MCZ3aWR0aD01MCZleHQ9MTYyMDI4MzcxMCZoYXNoPUFlVDlhSndLcXMtMVpqSGV2ZkUiLCJpYXQiOjE2MTc2OTE3MTAsImV4cCI6MTYxNzc3ODExMH0.FosEfpbaRqSpHynRnygNuMFyEff1ZvNun-nlHzALcrI'; 
                 tappay.setRequestHeader('Authorization', 'bearer ' + access_token); // set up header
                 tappay.send(dataString);
                 
-                document.querySelector('#result2').innerHTML = JSON.stringify(dataString, null, 4) // for test
+                document.querySelector('#result2').innerHTML = JSON.stringify(dataString, null, 4) 
 
             });
         }

@@ -17,7 +17,6 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 router.use(bodyParser.text());
 router.use(cookieParser());
-// router.use(express.static('public')); // 可能會有問題
 
 // -- w2p1 and w2p2
 router.post("/order/checkout", (req, res) => {
@@ -48,7 +47,6 @@ router.post("/order/checkout", (req, res) => {
         };
         const orderSQL = "INSERT INTO stylish.order_table SET ?";
         const result = await dbSetInsert(req, orderSQL, orderInfo); // INSERT INTO order_table
-        // console.log(result);
         const orderID = result.insertId; // orderID in mysql
         for (let i = 0; i < orderData.order.list.length; i++) { // 注意效能 for loop
             const { id, name, price, size, qty } = orderData.order.list[i];
@@ -64,9 +62,7 @@ router.post("/order/checkout", (req, res) => {
             };
             const orderSQL = "INSERT INTO stylish.order_list_table SET ?";
             console.log(orderListInfo); // checkout robot
-            // eslint-disable-next-line no-unused-vars
-            const result = await dbSetInsert(req, orderSQL, orderListInfo); // INSERT INTO order_list_table
-            // console.log(result)
+            await dbSetInsert(req, orderSQL, orderListInfo); // INSERT INTO order_list_table
         }
         console.log("order_id :" + orderID); // checkout robot
 
@@ -92,9 +88,7 @@ router.post("/order/checkout", (req, res) => {
             remember: true
         };
         console.log(paymentInfo); // checkout robot
-        // Callback Style
         TapPay.payByPrime(paymentInfo, (_error, result) => { // error to _error by linter
-            // console.log(result.status);
             if (result.status !== 0) {
                 console.log(result.msg);
                 res.send(result.msg);

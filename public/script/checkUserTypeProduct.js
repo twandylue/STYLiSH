@@ -18,7 +18,6 @@ xhr.onreadystatechange = function () {
                 getProductsUpload.onreadystatechange = function () {
                     if (getProductsUpload.readyState === 4) {
                         if (getProductsUpload.status === 200) {
-                            // do something
                             const mainContent = document.querySelector("#main__content"); // 將透過/admin/product.html拿到的html檔案，塞入#main__content標籤之內
                             mainContent.innerHTML = getProductsUpload.responseText;
                         } else {
@@ -40,7 +39,6 @@ xhr.onreadystatechange = function () {
     }
 };
 xhr.open("GET", "/api/1.0/user/profile"); // for local test and EC2
-// xhr.open("GET", "http://35.73.76.64/api/1.0/user/profile"); // for EC2
 const accessToken = localStorage.getItem("access_token");
 xhr.setRequestHeader("Authorization", "bearer " + accessToken);
 xhr.send();

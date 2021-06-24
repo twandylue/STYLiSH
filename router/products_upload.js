@@ -8,11 +8,9 @@ require("dotenv").config({ path: process.cwd() + "/DOTENV/config.env" });
 
 // set storage engine
 const storageEng = multer.diskStorage({
-    // destination為保留字
-    // destination: './public/upload_pics/',
+
     destination: "./public/upload_images/",
     filename: function (req, file, callback) {
-        // callback(null, file.fieldname + '-' + Date.now() + '-' + path.extname(file.originalname));
         callback(null, file.fieldname + "-" + Date.now() + "-" + file.originalname);
     }
 });
@@ -45,7 +43,6 @@ const fields = [{ name: "main_image", maxCount: 1 }, { name: "images", maxCount:
 router.post("/admin/upload", upload.fields(fields), (req, res) => {
     const id = parseInt(req.body.id);
     const price = parseInt(req.body.price);
-    // eslint-disable-next-line camelcase
     const { catagory, title, description, texture, wash, place, note, story, sizes, name, code } = req.body;
     // eslint-disable-next-line camelcase
     const { color_code_1, color_code_2, color_code_3, size_1, size_2, size_3, stock_1, stock_2, stock_3 } = req.body;

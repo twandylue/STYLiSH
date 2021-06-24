@@ -16,23 +16,20 @@ router.use(cookieParser());
 router.use(express.static("public")); // 可能會有問題
 
 // for w0p3
-// eslint-disable-next-line camelcase
 async function uploadMain (req, upload_var) {
     if (upload_var.id && upload_var.catagory && upload_var.title && upload_var.description && upload_var.price && upload_var.texture && upload_var.wash && upload_var.place && upload_var.note && upload_var.story && upload_var.sizes && upload_var.image_files.main_image) {
         // 上方判斷氏可補上sizes(optional)
         // insert product
         const sqlCheckProductTable = `SELECT * FROM product_table WHERE id = ${upload_var.id}`;
         const sqlProductTable = `INSERT INTO product_table (id, catagory, title, description, price, texture, wash, place, note, story, sizes, main_image) VALUES ('${upload_var.id}', '${upload_var.catagory}', '${upload_var.title}', '${upload_var.description}', '${upload_var.price}', '${upload_var.texture}', '${upload_var.wash}', '${upload_var.place}', '${upload_var.note}', '${upload_var.story}', '${upload_var.sizes}', '${imageURL(upload_var.image_files.main_image[0].path)}');`;
-        // eslint-disable-next-line no-unused-vars
-        const product = await makeSQL(req, sqlCheckProductTable, sqlProductTable);
+        await makeSQL(req, sqlCheckProductTable, sqlProductTable);
         console.log("Update product.");
     }
     if (upload_var.name && upload_var.code) {
         // insert color
         const sqlCheckColors = `SELECT * FROM colors WHERE code = '${upload_var.code}'`;
         const sqlColors = `INSERT INTO colors (name, code) VALUES ('${upload_var.name}', '${upload_var.code}');`;
-        // eslint-disable-next-line no-unused-vars
-        const colors = await makeSQL(req, sqlCheckColors, sqlColors);
+        await makeSQL(req, sqlCheckColors, sqlColors);
         console.log("Updata colors.");
     }
     if (upload_var.id && upload_var.image_files.images) {
@@ -43,8 +40,7 @@ async function uploadMain (req, upload_var) {
             insertImages += `('${upload_var.id}', '${imageURL(upload_var.image_files.images[i].path)}'),`;
         }
         insertImages += `('${upload_var.id}', '${imageURL(upload_var.image_files.images[upload_var.image_files.images.length - 1].path)}');`;
-        // eslint-disable-next-line no-unused-vars
-        const images = await makeMultiSQL(req, sqlCheckProductTable, insertImages);
+        await makeMultiSQL(req, sqlCheckProductTable, insertImages);
         console.log("Updata images.");
     }
     if (upload_var.id && upload_var.variant[0].id && upload_var.variant[0].color_code && upload_var.variant[0].size && upload_var.variant[0].stock !== null) {
@@ -55,7 +51,6 @@ async function uploadMain (req, upload_var) {
             insertVariant += `('${upload_var.variant[i].id}', '${upload_var.variant[i].color_code}', '${upload_var.variant[i].size}', '${upload_var.variant[i].stock}'),`;
         }
         insertVariant += `('${upload_var.variant[upload_var.variant.length - 1].id}', '${upload_var.variant[upload_var.variant.length - 1].color_code}', '${upload_var.variant[upload_var.variant.length - 1].size}', '${upload_var.variant[upload_var.variant.length - 1].stock}');`;
-        // eslint-disable-next-line no-unused-vars
         const stock = await makeMultiSQL(req, sqlCheckProductTable, insertVariant);
         console.log("Updata stock.");
     } else {
@@ -78,43 +73,34 @@ async function queryMain (req, sqlSelect, sqlCount, queryPage) {
         totalPages = sqlTotalcount / pagesGap;
         const sqlDataStart = (queryPage) * pagesGap;
         sqlSelect = sqlSelect + ` LIMIT ${sqlDataStart} , ${pagesGap};`;
-        // console.log(sqlSelect);
     }
 
     const productList = await dbsql(req, sqlSelect);
-    // console.log(productList);
     for (let i = 0; i < productList.length; i++) {
         // 每項product
         const imagesArr = [];
         const sqlImages = `SELECT image FROM images WHERE product_id = ${parseInt(productList[i].id)};`;
         const images = await dbsql(req, sqlImages);
-        // console.log(images)
         for (let i = 0; i < images.length; i++) {
             imagesArr.push(images[i].image);
         }
-        // console.log(imagesArr); // 同個id
 
         const sqlStock = `SELECT color_code, size, stock FROM stock WHERE product_id = ${parseInt(productList[i].id)};`;
         const stock = await dbsql(req, sqlStock);
-        // console.log(stock); // ok
 
         const ans = Object.keys(groupByKey(stock, "color_code"));
-        // console.log(ans);
         let sqlColor = "SELECT * FROM colors WHERE code = ";
         for (let i = 0; i < ans.length - 1; i++) {
             sqlColor += `'${ans[i]}' OR code =`;
         }
         sqlColor += `'${ans[ans.length - 1]}';`;
-        // console.log(sqlColor) // ok
         const colors = await dbsql(req, sqlColor);
-        // console.log(colors); // ok
         const stockSize = Object.keys(groupByKey(stock, "size"));
         productList[i].images = imagesArr;
         productList[i].variants = stock;
         productList[i].colors = colors;
         productList[i].sizes = stockSize;
     }
-    // console.log(productList);
     const output = {};
     if (sqlCount !== "none") {
         output.data = productList;
@@ -212,7 +198,6 @@ function callSQL (req, sql) {
             if (err) {
                 throw err;
             }
-            // console.log(result)
             if (result.length) {
                 // reject(''); // 有問題 promise unhandle 待解決
                 // exist
@@ -255,14 +240,11 @@ function responseConsist (token, expire, id, provider, name, email, picture) {
 
 // for w1p4 to w2p2
 const secretkey = process.env.JWT_KEY; // 全域變數 jwt key 路徑可能會有問題
-// console.log(secretkey)
 function createJWT (payload) {
     return new Promise((resolve, reject) => {
         const infoJWT = {};
-        // let jwtToken = jwt.sign(payload, secretkey, {expiresIn: '3600'});
         const jwtToken = jwt.sign(payload, secretkey, { expiresIn: "1d" });
         infoJWT.token = jwtToken;
-        // infoJWT.expired = 3600;
         infoJWT.expired = "1 day";
         resolve(infoJWT);
     });
@@ -288,7 +270,6 @@ function checkJWT (encryptedToken) {
 // for w1p3 and w1p4
 function sendRequest (fbTokenURL) {
     const req = new Promise((resolve, reject) => {
-        // 應該要能依照provider決定request的url(不同provider) 待改進
         request(`https://graph.facebook.com/me?fields=id,name,birthday,email,picture&access_token=${fbTokenURL}`, { json: true }, (err, res, body) => {
             if (err) { return console.log(err); }
             resolve(body);

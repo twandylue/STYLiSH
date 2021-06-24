@@ -149,15 +149,12 @@
         <script type="text/javascript" src="./script/cart.js"></script>
         <script>
             TPDirect.setupSDK(12348, "app_pa1pQcKoY22IlnSXq5m5WP5jFKzoRG58VEXpT7wU62ud7mMbDOGzCYIlzzLF", "sandbox");
-            // Display ccv field
             let fields = {
                 number: {
-                        // css selector
                         element: '#card-number',
                         placeholder: '**** **** **** ****'
                     },
                     expirationDate: {
-                        // DOM object
                         element: document.getElementById('card-expiration-date'),
                         placeholder: 'MM / YY'
                     },

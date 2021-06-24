@@ -9,15 +9,11 @@ xhr.onreadystatechange = function () {
             const allProducts = document.getElementById("all_products");
             const { data } = response;
             for (let i = 0; i < data.length; i++) {
-                // console.log(data[i]);
-                // eslint-disable-next-line camelcase
                 const { main_image, colors, title, price } = data[i];
                 const productContent = document.createElement("a");
                 productContent.className = "product content";
-                // console.log(data[i].id);
                 productContent.href = `/product.html?id=${data[i].id}`;
                 const img = document.createElement("img");
-                // eslint-disable-next-line camelcase
                 img.src = main_image;
 
                 const productColors = document.createElement("div");
@@ -25,8 +21,6 @@ xhr.onreadystatechange = function () {
                 for (let i = 0; i < colors.length; i++) {
                     const color = document.createElement("div");
                     color.className = "product_color";
-                    // color.style.backgroundColor = '#DDFFBB'; // for test
-                    // console.log('#'+ `${colors[i].code}`);
                     color.style.backgroundColor = "#" + `${colors[i].code}`;
                     productColors.append(color);
                 }
@@ -48,7 +42,6 @@ xhr.onreadystatechange = function () {
     };
 };
 xhr.open("GET", `/api/1.0/products/all?paging=${paging}`); // for local test and EC2
-// xhr.open("GET", `http://35.73.76.64/api/1.0/products/all?paging=${paging}`); // for EC2
 xhr.send();
 
 function updateCartNumber () {

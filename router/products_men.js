@@ -19,7 +19,6 @@ router.use(cookieParser());
 router.get("/products/men", (req, res) => {
     const queryCatagory = "men";
     const queryPage = req.query.paging;
-    // console.log(queryPage)
     const sqlSelect = `SELECT * FROM product_table WHERE catagory = '${queryCatagory}'`;
     const sqlCount = `SELECT Count(*) FROM product_table WHERE catagory = '${queryCatagory}'`;
     queryMain(req, sqlSelect, sqlCount, queryPage).then((result) => {
